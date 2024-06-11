@@ -2,7 +2,7 @@ from PIL import Image, ImageFilter
 import pygame
 from config import *
 
-class ImageTool:
+class Tool:
     def __init__(self):
         pass
 

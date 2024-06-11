@@ -1,0 +1,38 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "grassdesert.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "WL_Master_TIleset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "grassdesert.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 3422,
+                "y": 2564
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/patgu/source/repos/Aftermath/Aftermath/img",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "grassdesert.tmx",
+        "WL_Master_TIleset.tsx"
+    ],
+    "project": "aftermath.tiled-project",
+    "recentFiles": [
+        "WL_Master_TIleset.tsx",
+        "grassdesert.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.transparentColor": "#000000",
+    "tileset.useTransparentColor": true
+}

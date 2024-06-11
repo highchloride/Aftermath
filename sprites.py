@@ -14,6 +14,19 @@ class Spritesheet:
         sprite.set_colorkey(BLACK)
         return sprite
 
+class Utility:
+    def moveMap(fieldmap, x,y):
+        for sprite in fieldmap.all_sprites:
+            if x > 0:
+                sprite.rect.x -= (x * TILE_SIZE)
+            elif x < 0:
+                sprite.rect.x += (x * TILE_SIZE)
+            if y > 0:
+                sprite.rect.y -= (y * TILE_SIZE)
+            elif y < 0:
+                sprite.rect.y += (y * TILE_SIZE)
+            
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, fieldmap, x, y):
         
@@ -23,6 +36,8 @@ class Player(pygame.sprite.Sprite):
         self.groups = self.fieldmap.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
         
+        #self.ignore
+
         self.x = x * TILE_SIZE
         self.y = y * TILE_SIZE
         self.width = TILE_SIZE
@@ -52,11 +67,15 @@ class Player(pygame.sprite.Sprite):
         self.movement()
         #self.animate() #Uncomment to use animations
         self.collide_enemy()
+        self.collide_door()
+        #self.collide_border()
 
         self.rect.x += self.x_change
         self.collide_blocks('x')
+        self.collide_border('x')
         self.rect.y += self.y_change
         self.collide_blocks('y')
+        self.collide_border('y')
         
         self.x_change = 0
         self.y_change = 0
@@ -84,6 +103,33 @@ class Player(pygame.sprite.Sprite):
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
 
+    def collide_border(self, direction):
+        if direction == "x":
+            hits = pygame.sprite.spritecollide(self, self.fieldmap.borders, False)
+            if hits:
+                print("That's beyond your range, Patrolman.")
+                if self.x_change > 0:
+                    self.rect.x = hits[0].rect.left - self.rect.width
+                    for sprite in self.fieldmap.all_sprites:
+                        sprite.rect.x += PLAYER_SPEED
+                if self.x_change < 0:
+                    self.rect.x = hits[0].rect.right 
+                    for sprite in self.fieldmap.all_sprites:
+                        sprite.rect.x -= PLAYER_SPEED
+        
+        if direction == "y":
+            hits = pygame.sprite.spritecollide(self, self.fieldmap.borders, False)
+            if hits:
+                print("That's beyond your range, Patrolman.")
+                if self.y_change > 0:
+                    self.rect.y = hits[0].rect.top - self.rect.height
+                    for sprite in self.fieldmap.all_sprites:
+                        sprite.rect.y += PLAYER_SPEED
+                if self.y_change < 0:
+                    self.rect.y = hits[0].rect.bottom
+                    for sprite in self.fieldmap.all_sprites:
+                        sprite.rect.y -= PLAYER_SPEED
+    
     def collide_door(self):
         hits = pygame.sprite.spritecollide(self, self.fieldmap.doors, False)
         if hits:
@@ -94,7 +140,6 @@ class Player(pygame.sprite.Sprite):
         if hits:
             #self.kill()
             pygame.event.post(pygame.event.Event(self.game.ON_DEATH))
-            
             
     def collide_blocks(self, direction):
         if direction == "x":
@@ -121,8 +166,6 @@ class Player(pygame.sprite.Sprite):
                     for sprite in self.fieldmap.all_sprites:
                         sprite.rect.y -= PLAYER_SPEED
 
-
-                    
     def animate(self):
         if self.facing == "down":
             if self.y_change == 0:
@@ -268,6 +311,26 @@ class Block(pygame.sprite.Sprite):
         
         #self.image = self.game.tilemap_spritesheet.get_sprite(256, 288, self.width, self.height)
         self.image = image
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        
+class Border(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        
+        self.game = game
+        self._layer = BLOCK_LAYER
+        self.groups = self.game.all_sprites, self.game.borders
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        
+        self.x = x * TILE_SIZE
+        self.y = y * TILE_SIZE
+        self.width = TILE_SIZE
+        self.height = TILE_SIZE
+        
+        #self.image = self.game.tilemap_spritesheet.get_sprite(256, 288, self.width, self.height)
+        self.image = pygame.image.load(TRANSPARENT_TILE)
         
         self.rect = self.image.get_rect()
         self.rect.x = self.x

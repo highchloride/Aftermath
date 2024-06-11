@@ -14,9 +14,9 @@ class GameMain:
         self.subStateManager = GameStateManager('fieldmap')
         self.fieldmap = FieldMap(self.game, self.screen)
         self.escmenu = EscMenu(self.game, self.screen, None)
-        self.slots = Slots(self.game, self.screen)
+        #self.slots = Slots(self.game, self.screen)
 
-        self.subStates = {'fieldmap':self.fieldmap, 'escmenu':self.escmenu, 'slots':self.slots}
+        self.subStates = {'fieldmap':self.fieldmap, 'escmenu':self.escmenu}
         
         self.clock = pygame.time.Clock()
         self.timer = 0
@@ -25,14 +25,14 @@ class GameMain:
         self.subStates[self.subStateManager.get_state()].run()
         #Manage events for the game substates  
         for event in self.game.events:
-             if event.type == self.game.ON_RESUME:
-                 self.subStateManager.set_state('fieldmap')     
-             elif event.type == self.game.ON_STARTSCREEN:
-                 pygame.event.post(pygame.event.Event(self.game.ON_STARTSCREEN))
-             elif event.type == pygame.KEYUP:
-                 if event.key == pygame.K_ESCAPE:
-                     if self.subStateManager.currentState == 'fieldmap':
-                        self.escmenu.bkgImg = self.fieldmap.image
-                        self.subStateManager.set_state('escmenu')
-                     elif self.subStateManager.currentState == 'escmenu':
-                        self.subStateManager.set_state('fieldmap')   
+                if event.type == self.game.ON_RESUME:
+                    self.subStateManager.set_state('fieldmap')     
+                elif event.type == self.game.ON_STARTSCREEN:
+                    pygame.event.post(pygame.event.Event(self.game.ON_STARTSCREEN))
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_ESCAPE:
+                        if self.subStateManager.currentState == 'fieldmap':
+                            self.escmenu.bkgImg = self.fieldmap.image
+                            self.subStateManager.set_state('escmenu')
+                        elif self.subStateManager.currentState == 'escmenu':
+                            self.subStateManager.set_state('fieldmap')

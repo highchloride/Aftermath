@@ -1,5 +1,6 @@
-#State machine manager
+import pygame
 
+#State machine manager
 class GameStateManager:
     def __init__(self, currentState):
         self.prevState = ""

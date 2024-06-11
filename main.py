@@ -38,6 +38,8 @@ class Game:
         self.font_title = pygame.font.Font(FNT_TITLE, 128)
         #One variable for one events get call
         self.events = None
+        
+        pygame.key.set_repeat() 
 
         #State Machine
         self.gameStateManager = GameStateManager('start')
@@ -64,9 +66,11 @@ class Game:
                     self.gameStateManager.set_state('gameover')                    
                 if event.type == self.ON_NEWGAME:
                     self.gamemain = GameMain(self, self.screen)
+                    self.states.update({'gamemain':self.gamemain})
                     self.gameStateManager.set_state('gamemain')
                 if event.type == self.ON_STARTSCREEN:
-                    self.gamemain = None
+                    self.start = Start(self, self.screen)
+                    self.states.update({'start':self.start})
                     self.gameStateManager.set_state('start')
 
             #Call the active state's run logic

@@ -33,7 +33,6 @@ BRIGHTMAGENTA = (254,84,254)
 YELLOW = (254,254,84)
 WHITE = (254,254,254)
 
-
 #SLOT MACHINE COLORS
 BELL = (204, 174, 29)
 SEVEN = (183, 76, 48)
@@ -43,11 +42,22 @@ ORANGES = (192, 104, 36)
 LEMON = (178, 153, 47)
 GRAPE = (90, 77, 99)
 
+BUTTONWIDTH = 150
+BUTTONHEIGHT = 50
+
 #MAPS
 MAP_TEST = "tilemaps/grassdesert.tmx"
 
 #FONTS
 FNT_TITLE = "fonts/gothic821condensed.ttf"
+FNT_TXT1 = "fonts/JH_FALLOUT.TTF"
+FNT_TXT2 = "fonts/r_fallouty.ttf"
 
 #MUSIC
 MID_TOWN = "music/midi_town.mid"
+
+#UTILITY
+TRANSPARENT_TILE = "img/transparent_tile.png"
+
+#OBJECT ASSETS
+HHRADIO = "img/pixel_handheldradio.png"
