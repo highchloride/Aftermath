@@ -1,10 +1,13 @@
 import time
 import pygame
 from config import *
+from gamestatemanager import GameState
 from gui.buttons import Button
 
-class EscMenu:
+
+class EscMenu(GameState):
     def __init__(self, game, screen, bkgImg):
+        super().__init__()
         self.game = game
         self.screen = screen
         self.bkgImg = bkgImg
@@ -14,19 +17,23 @@ class EscMenu:
 
         self.resume_button = Button(565, 284, BUTTONWIDTH, BUTTONHEIGHT, WHITE, BLACK, '(R)esume', FNT_TITLE, 32)
         self.quit_button = Button(565, 581, BUTTONWIDTH, BUTTONHEIGHT, WHITE, BLACK, '(Q)uit', FNT_TITLE, 32)
-    
-    def run(self):
+
+    def draw(self, screen):
+        from states.fieldmap import FieldMap    
+        from states.start import Start
         mouse_pos = pygame.mouse.get_pos()
         mouse_pressed = pygame.mouse.get_pressed()
         
         keys = pygame.key.get_pressed()
         if self.resume_button.is_pressed(mouse_pos, mouse_pressed) or keys[pygame.K_r]:
             print("resume")
-            pygame.event.post(pygame.event.Event(self.game.ON_RESUME))
+            #pygame.event.post(pygame.event.Event(self.game.ON_RESUME))
+            self.next_state = FieldMap(self.game, self.screen)
                 
         if self.quit_button.is_pressed(mouse_pos, mouse_pressed) or keys[pygame.K_q]:
             print("start")
-            pygame.event.post(pygame.event.Event(self.game.ON_STARTSCREEN))
+            #pygame.event.post(pygame.event.Event(self.game.ON_STARTSCREEN))
+            self.next_state = Start(self.game, self.screen)
             
             
         #Blit to screen

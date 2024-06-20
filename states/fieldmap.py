@@ -4,12 +4,15 @@ import pygame
 import pytmx
 from sprites import *
 from config import *
+from states.escmenu import EscMenu
 from tools import Tool
 from gui.menus import *
 from gui.buttons import *
+from gamestatemanager import GameState
 
-class FieldMap:
+class FieldMap(GameState):
     def __init__(self, game, screen):
+        super().__init__()
         self.screen = screen
         self.game = game
         
@@ -40,8 +43,17 @@ class FieldMap:
         #Audio player
         #pygame.mixer.music.load(MID_TOWN)
         #pygame.mixer.music.play()
+
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.next_state = EscMenu(self.game, self.screen, self.image)
+        return super().handle_events(events)
+
+    def update(self):
+        pass
                
-    def run(self):
+    def draw(self, screen):
         #Renders the active map
         self.screen.fill(BLACK)
         self.all_sprites.update()
